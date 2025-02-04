@@ -23,9 +23,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-  res.send('welcome!');
-});
+app.use('/api/projects', require('./routes/projectsRoutes'));
 
 mongoose.connection.once('open', () => {
   console.log('connected to mongoDB');

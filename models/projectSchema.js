@@ -39,11 +39,3 @@ const projectSchema = new Schema({
 });
 
 module.exports = mongoose.model('Project', projectSchema);
-
-//       projectName: 'shopping cart',
-//       projectDesc: 'A react project with multiple pages',
-//       codeReviewLink: 'https://github.com/DeeBest/shopping-cart',
-//       livePreviewLink: 'https://deebest.github.io/shopping-cart/',
-//       imgUrl: 'src/assets/projects-images/shopping-cart.jpg',
-//       usedTechStack: ['reactJS', 'css', 'html', 'javascript'],
-//       category: 'frontend',
