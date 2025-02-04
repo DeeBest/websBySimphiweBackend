@@ -23,6 +23,10 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
+app.get('/', (req, res) => {
+  res.send('welcome!');
+});
+
 mongoose.connection.once('open', () => {
   console.log('connected to mongoDB');
   app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
