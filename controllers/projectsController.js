@@ -62,4 +62,25 @@ const addProject = async (req, res) => {
   }
 };
 
-module.exports = { getAllProjects, addProject };
+const deleteProject = async (req, res) => {
+  const id = req.params.id;
+
+  if (!id) return res.status(400).json({ message: 'ID required' });
+
+  try {
+    const project = await Project.findOne({ _id: id });
+    if (!project)
+      return res
+        .status(400)
+        .json({ message: `No project found with ${id} ID.` });
+    await Project.deleteOne(project);
+    res.status(204).json({
+      message: `Successfully deleted ${project.projectName} project.`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getAllProjects, addProject, deleteProject };
