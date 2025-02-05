@@ -51,7 +51,7 @@ app.post('/api/uploads', upload.single('projectImg'), (req, res) => {
   console.log(`Uploaded file: ${req.file.path}`); // Logs the file path
   res.json({
     message: 'Success',
-    imageUrl: `http://localhost:${PORT}/api/images/${req.file.filename}`,
+    imageUrl: `http://localhost:${PORT}/images/${req.file.filename}`,
   });
 });
 

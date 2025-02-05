@@ -12,4 +12,54 @@ const getAllProjects = async (req, res) => {
   }
 };
 
-module.exports = { getAllProjects };
+const addProject = async (req, res) => {
+  const {
+    projectName,
+    projectDesc,
+    codeReviewLink,
+    livePreviewLink,
+    imgUrl,
+    category,
+    usedTechStack,
+  } = req.body;
+
+  if (
+    !projectName ||
+    !projectDesc ||
+    !codeReviewLink ||
+    !livePreviewLink ||
+    !imgUrl ||
+    !category ||
+    !usedTechStack
+  ) {
+    return res.status(400).json({ message: 'All fields are required.' });
+  }
+
+  try {
+    const duplicate = await Project.findOne({
+      projectName: req.projectName,
+    }).exec();
+
+    if (duplicate) {
+      return res
+        .status(409)
+        .json({ message: `A project with ${projectName} already exists.` });
+    } else {
+      const project = await Project.create({
+        projectName,
+        projectDesc,
+        codeReviewLink,
+        livePreviewLink,
+        imgUrl,
+        category,
+        usedTechStack,
+      });
+      return res.status(201).json({ project });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getAllProjects, addProject };
