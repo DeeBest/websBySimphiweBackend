@@ -5,6 +5,9 @@ const path = require('path');
 const storage = multer.diskStorage({
   destination: './uploads/images',
   filename: (req, file, cb) => {
+    if (!file.originalname.match(/\.(png|svg|jpg|jpeg|ico)$/)) {
+      return cb(new Error('Please provide correct file type.'));
+    }
     return cb(
       null,
       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
@@ -18,7 +21,7 @@ const upload = multer({ storage: storage });
 exports.uploadImage = (req, res) => {
   res.json({
     message: 'Success',
-    imageUrl: `http://localhost:${process.env.PORT}/images/${req.file.filename}`,
+    imageUrl: `${process.env.API_URL}/images/${req.file.filename}`,
   });
 };
 

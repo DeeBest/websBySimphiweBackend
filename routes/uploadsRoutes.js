@@ -6,7 +6,7 @@ const uploadController = require('../controllers/uploadsController');
 
 // Endpoint for uploading images
 router.post(
-  '/uploads',
+  '/',
   uploadController.uploadMiddleware,
   uploadController.uploadImage
 );

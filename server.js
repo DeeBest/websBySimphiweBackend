@@ -20,11 +20,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use('/images', express.static('uploads/images'));
 
-//endpoint for getting all projects
+//endpoint for projects routes
 app.use('/api/projects', require('./routes/projectsRoutes'));
+//endpoint for skills routes
+app.use('/api/skills', require('./routes/skillsRoutes'));
 
 //endpoint for uploading images
-app.use('/api/projects', require('./routes/uploadsRoutes'));
+app.use('/api/uploads', require('./routes/uploadsRoutes'));
+
+//catch all route
+app.use('*', (req, res) =>
+  res.status(404).json({ message: 'Requested resource does not exists.' })
+);
 
 mongoose.connection.once('open', () => {
   console.log('connected to mongoDB');
