@@ -24,6 +24,8 @@ app.use('/images', express.static('uploads/images'));
 app.use('/api/projects', require('./routes/projectsRoutes'));
 //endpoint for skills routes
 app.use('/api/skills', require('./routes/skillsRoutes'));
+//routes for users
+app.use('/api/users', require('./routes/userRoutes'));
 
 //endpoint for uploading images
 app.use('/api/uploads', require('./routes/uploadsRoutes'));
