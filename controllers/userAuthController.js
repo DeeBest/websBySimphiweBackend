@@ -17,14 +17,14 @@ const userLogin = async (req, res) => {
     const accessToken = jwt.sign(
       { username: user.username },
       process.env.ACCESS_TOKEN,
-      { expiresIn: '1m' }
+      { expiresIn: '15m' }
     );
     const refreshToken = jwt.sign(
       {
         username: user.username,
       },
       process.env.REFRESH_TOKEN,
-      { expiresIn: '2m' }
+      { expiresIn: '1d' }
     );
     user.refreshToken = refreshToken;
     await user.save();
@@ -43,10 +43,10 @@ const userLogin = async (req, res) => {
 };
 
 const refreshToken = async (req, res) => {
-  const cookie = req.cookies;
+  const cookies = req.cookies;
 
-  if (!cookie?.jwt) return res.status(401).json({ message: 'Unauthorized' });
-  const refreshToken = cookie.jwt;
+  if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' });
+  const refreshToken = cookies.jwt;
 
   try {
     const foundUser = await User.findOne({ refreshToken }).exec();
@@ -60,7 +60,7 @@ const refreshToken = async (req, res) => {
       const accessToken = jwt.sign(
         { username: decodedInfo.username },
         process.env.ACCESS_TOKEN,
-        { expiresIn: '1m' }
+        { expiresIn: '15m' }
       );
       res.status(200).json({ message: 'Success', accessToken });
     });
@@ -70,4 +70,34 @@ const refreshToken = async (req, res) => {
   }
 };
 
-module.exports = { userLogin, refreshToken };
+const logout = async (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies?.jwt)
+    return res.status(201).json({ message: 'No cookie to clear' });
+  const refreshToken = cookies.jwt;
+
+  try {
+    const foundUser = await User.findOne({ refreshToken });
+
+    if (!foundUser) {
+      res.clearCookie('jwt', {
+        httpOnly: true,
+        sameSite: 'None',
+        secure: true,
+      });
+      return res.status(204).json({ message: 'Cookie cleared' });
+    }
+
+    foundUser.refreshToken = '';
+    await foundUser.save();
+
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    return res.status(204).json({ message: 'Successfully logged out' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { userLogin, refreshToken, logout };
