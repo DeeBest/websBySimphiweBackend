@@ -11,7 +11,7 @@ const {
 
 router.get('/', getAllProjects);
 router.post('/add-project', addProject);
-router.delete('/:id', deleteProject);
+router.delete('/delete-project/:id', deleteProject);
 router.get('/:id', getSingleProject);
 router.put('/update-project/:id', updateProject);
 
