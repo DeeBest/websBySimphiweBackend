@@ -10,8 +10,8 @@ const {
   updateProject,
 } = require('../controllers/projectsController');
 
-router.use(verifyJwt);
 router.get('/', getAllProjects);
+router.use(verifyJwt);
 router.post('/add-project', addProject);
 router.delete('/delete-project/:id', deleteProject);
 router.get('/:id', getSingleProject);
