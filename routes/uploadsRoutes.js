@@ -1,8 +1,10 @@
-// routes/uploadRoutes.js
+const verifyJWT = require('../middleware/verifyJWT');
 
 const express = require('express');
 const router = express.Router();
 const uploadController = require('../controllers/uploadsController');
+
+router.use(verifyJWT);
 
 // Endpoint for uploading images
 router.post(

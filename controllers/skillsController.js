@@ -6,7 +6,7 @@ const getAllSkills = async (req, res) => {
     if (skills.length <= 0) {
       return res.status(204).json({ message: 'No skills found' });
     }
-    return res.status(200).json(skills);
+    return res.status(200).json({ message: 'Success', skills });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });

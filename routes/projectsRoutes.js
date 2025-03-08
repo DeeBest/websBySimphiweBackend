@@ -12,9 +12,9 @@ const {
 
 router.get('/', getAllProjects);
 router.use(verifyJwt);
+router.get('/:id', getSingleProject);
 router.post('/add-project', addProject);
 router.delete('/delete-project/:id', deleteProject);
-router.get('/:id', getSingleProject);
 router.put('/update-project/:id', updateProject);
 
 module.exports = router;

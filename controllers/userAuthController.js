@@ -17,7 +17,7 @@ const userLogin = async (req, res) => {
     const accessToken = jwt.sign(
       { username: user.username },
       process.env.ACCESS_TOKEN,
-      { expiresIn: '5s' }
+      { expiresIn: '15m' }
     );
 
     const refreshToken = jwt.sign(
@@ -25,7 +25,7 @@ const userLogin = async (req, res) => {
         username: user.username,
       },
       process.env.REFRESH_TOKEN,
-      { expiresIn: '10s' }
+      { expiresIn: '1d' }
     );
     user.refreshToken = refreshToken;
     await user.save();
@@ -47,7 +47,7 @@ const refreshToken = async (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.refreshToken)
-    return res.status(401).json({ message: 'Unauthorized, No cookie.' });
+    return res.status(401).json({ message: 'Unauthorized.' });
   const refreshToken = cookies.refreshToken;
 
   try {

@@ -9,7 +9,7 @@ const verifyJWT = require('../middleware/verifyJWT');
 
 router.post('/create-user', createUser);
 router.post('/login', userLogin);
-router.get('/refresh', refreshToken);
 router.use(verifyJWT);
+router.get('/refresh', refreshToken);
 router.get('/logout', logout);
 module.exports = router;
